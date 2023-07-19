@@ -1,10 +1,14 @@
+require('dotenv').config();
 const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000; // ADD process.env.PORT later
+const productRoutes = require('./routes/product_routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const app = express();
+const PORT = process.env.PORT || 3000; // ADD process.env.PORT later
 
 app.use(cors());
+
+app.use(express.json());
 
 app.use(bodyParser.json());
 
@@ -13,6 +17,8 @@ app.use(
     extended: true,
   })
 );
+
+app.use('/products', productRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to my e-commerce site!');
