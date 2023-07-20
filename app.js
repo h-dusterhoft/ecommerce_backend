@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const productRoutes = require('./routes/product_routes');
+const userRoutes = require('./routes/user_routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
@@ -19,6 +20,7 @@ app.use(
 );
 
 app.use('/products', productRoutes);
+app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to my e-commerce site!');
