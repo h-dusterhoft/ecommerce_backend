@@ -8,6 +8,15 @@ const getProducts = (req, res) => {
     });
 };
 
+const getProductById = (req, res) => {
+    const id = parseInt(req.params.id);
+    pool.query(queries.getProductById, [id], (error, results) => {
+        if (error) throw error;
+        res.status(200).json(results.rows);
+    });
+};
+
 module.exports = {
     getProducts,
+    getProductById,
 };
