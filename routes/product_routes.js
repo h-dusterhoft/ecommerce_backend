@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const query = require('../db/product_queries');
+const controller = require('../controllers/product_controllers');
 
 const router = Router();
 
-router.get('/', query.getProducts);
+router.get('/', controller.getProducts);
 
 module.exports = router;
