@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = process.env.PORT || 3000; // ADD process.env.PORT later
 
+app.set('view-engine', 'ejs');
+
 app.use(cors());
 
 app.use(express.json());
@@ -37,16 +39,16 @@ app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Welcome to my e-commerce site!');
+    res.render('index.ejs');
 });
 
 app.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login.ejs');
 });
 
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-})
+app.get('/register', (req, res) => {
+  res.render('register.ejs');
+});
 
 app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
