@@ -16,6 +16,8 @@ const getUserById = (req, res) => {
     });
 };
 
+// change to getUserByUsername
+
 module.exports = {
     getUsers,
     getUserById,
