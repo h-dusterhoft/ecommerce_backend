@@ -17,6 +17,7 @@ const getUserById = (req, res) => {
 };
 
 // create authenticateUser 
+// create createUser
 
 module.exports = {
     getUsers,
