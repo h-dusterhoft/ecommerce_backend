@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
 const app = express();
 const PORT = process.env.PORT || 3000; // ADD process.env.PORT later
 
@@ -34,6 +37,30 @@ app.use(
     }
   })
 );
+
+app.use(passport.initialize()); 
+app.use(passport.session()); 
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  done(null, id);
+});
+
+const dbUser = require('./controllers/user_controllers') //authenticateUser
+
+passport.use(new LocalStrategy(
+  async (username, password, done) => {
+    try {
+      const user = await dbUser.authenticateUser({ username, password }); //create
+      return done(null, user);
+    } catch(err) {
+      return done(err);
+    }
+  }
+));
 
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);

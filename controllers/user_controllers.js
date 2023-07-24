@@ -16,7 +16,7 @@ const getUserById = (req, res) => {
     });
 };
 
-// change to getUserByUsername
+// create authenticateUser 
 
 module.exports = {
     getUsers,
