@@ -1,20 +1,22 @@
-const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const dbUser = require('./controllers/user_controllers');
+const pool = require('../db/db');
+const queries = require('../db/user_queries');
 
 const loadPassport = (passport) => {
-    const authenticateUser = async (username, password, done) => {
-        try {
-            const user = await dbUser.getUserByUsername(username);
-            if (!user) return (done, null);
-            const matchedPassword = await bcrypt.compare(password, user.password);
-            if (!matchedPassword) return done(null, false);
-            return done(null, user);
-        } catch (err) {
-            return done(err);
+    const authenticateUser = (username, password, done) => {
+        pool.query(queries.getUserByUsername), [username], async (error, results) => {
+            if (error) return done(error);
+            if (results.rows > 0) {
+                const user = results.rows[0];
+                const matchedPassword = await bcrypt.compare(password, user.password)
+                if (!matchedPassword) return done(null, false);
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
         }
-    };
+      };
 
     passport.use(new LocalStrategy(authenticateUser));
 
@@ -22,9 +24,12 @@ const loadPassport = (passport) => {
         done(null, user.id);
     });
 
-    passport.deserializeUser(async (id, done) => {
-        const user = await dbUser.getUserbyId(id);
-        return done(null, user);
+    passport.deserializeUser((id, done) => {
+        pool.query(queries.getUserById, [id], (error, results) => {
+            if (error) throw error;
+            const user = results.rows[0];
+            return done(null, user);
+        })
     });
 };
   
