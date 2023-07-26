@@ -1,10 +1,11 @@
 require('dotenv').config();
+
 const express = require('express');
-const productRoutes = require('./routes/product_routes');
-const userRoutes = require('./routes/user_routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
+const pgSession = require('connect=pg-simple')(session);
+const pool = require('../db/db');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 
@@ -29,6 +30,10 @@ app.use(cookieParser());
 
 app.use(
   session({
+    store: new pgSession({
+      pool: pool,
+      createTableIfMissing: true
+    }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -41,6 +46,9 @@ app.use(
 
 app.use(passport.initialize()); 
 app.use(passport.session()); 
+
+const productRoutes = require('./routes/product_routes');
+const userRoutes = require('./routes/user_routes');
 
 app.get('/', (req, res) => {
     res.render('index.ejs');
