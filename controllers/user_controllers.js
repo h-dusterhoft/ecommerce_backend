@@ -24,11 +24,26 @@ const getUserByUsername = (req, res) => {
     });
 };
 
-// create authenticateUser 
-// create createUser
+const getUserByEmail = (req, res) => {
+    const email = req.params.email;
+    pool.query(queries.getUserByEmail, [email], (error, results) => {
+        if (error) throw error;
+        res.status(200).json(results.rows);
+    });
+};
+
+const createUser = (req, res) => {
+    const {username, password, first_name, last_name, email} = request.body;
+    pool.query(queries.createUser, [username, password, first_name, last_name, email], (error, results) => {
+        if (error) throw error;
+        res.status(201).send('User created!');
+    });
+};
 
 module.exports = {
     getUsers,
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    getUserByEmail,
+    createUser
 };

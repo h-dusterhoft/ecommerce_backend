@@ -54,30 +54,6 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
-app.get('/login', (req, res) => {
-  res.render('login.ejs');
-});
-
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.redirect('profile');
-  });
-
-app.get('/register', (req, res) => {
-  res.render('register.ejs');
-});
-
-app.post('/register', userRoutes.createUser); //create
-
-app.get('/profile', (req, res) => {
-  res.render('profile.ejs', { user: req.user });
-});
-
-app.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-}); 
-
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 
