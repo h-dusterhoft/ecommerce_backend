@@ -8,6 +8,7 @@ const pgSession = require('connect=pg-simple')(session);
 const pool = require('../db/db');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
+const { loadPassport } = require('./config/passport');
 
 const app = express();
 const PORT = process.env.PORT || 3000; // ADD process.env.PORT later
@@ -46,6 +47,7 @@ app.use(
 
 app.use(passport.initialize()); 
 app.use(passport.session()); 
+loadPassport(passport);
 
 const productRoutes = require('./routes/product_routes');
 const userRoutes = require('./routes/user_routes');
