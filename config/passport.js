@@ -7,7 +7,7 @@ const loadPassport = (passport) => {
     const authenticateUser = (username, password, done) => {
         pool.query(queries.getUserByUsername), [username], async (error, results) => {
             if (error) return done(error);
-            if (results.rows > 0) {
+            if (results.rows.length > 0) {
                 const user = results.rows[0];
                 const matchedPassword = await bcrypt.compare(password, user.password)
                 if (!matchedPassword) return done(null, false);
