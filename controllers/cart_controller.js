@@ -31,14 +31,42 @@ const deleteCart = (req, res) => {
 
 const addProductToCart = (req, res) => {
     const cartId = parseInt(req.body.cart_id);
-    const productId = parseInt(req.params.product_id);
+    const productId = parseInt(req.body.product_id);
     const quantity = parseInt(req.body.quantity);
-    pool.query(queries.)
+    pool.query(queries.addProductToCart, [cartId, productId, quantity], (req, res) => {
+        if (error) throw error;
+        res.status(201).send('Product added!');
+    });
+};
+
+const removeProductFromCart = (req, res) => {
+    const cartId = parseInt(req.body.cart_id);
+    const productId = parseInt(req.body.product_id);
+    pool.query(queries.addProductToCart, [cartId, productId], (req, res) => {
+        if (error) throw error;
+        res.status(20).send(`Product deleted with ID: ${productId}`);
+    });
+};
+
+const updateProductQuantity = (req, res) => {
+    const cartId = parseInt(req.body.cart_id);
+    const productId = parseInt(req.body.product_id);
+    const quantity = parseInt(req.body.quantity);
+    pool.query(queries.addProductToCart, [quantity, cartId, productId], (req, res) => {
+        if (error) throw error;
+        res.status(20).send(`Product quantity updated with ID: ${productId}`);
+    });
+};
+
+const checkout = (req, res) => {
+    
 }
 
 module.exports = {
     getCartByUserId,
     createCart,
     deleteCart,
-
+    addProductToCart,
+    removeProductFromCart,
+    updateProductQuantity
 }

@@ -48,6 +48,7 @@ loadPassport(passport);
 const productRoutes = require('./routes/product_routes');
 const userRoutes = require('./routes/user_routes');
 const authRoutes = require('./routes/auth_routes');
+const cartRoutes = require('./routes/cart_routes');
 
 app.get('/', (req, res) => {
     res.render('index.ejs');
@@ -56,6 +57,7 @@ app.get('/', (req, res) => {
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/cart', cartRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
