@@ -10,9 +10,11 @@ router.post(':/userId', checkAuthenticated, controller.createCart);
 router.delete(':/userId', checkAuthenticated, controller.deleteCart);
 
 // Add and remove products and update quantity (table: carts_products)
-// should the route be /:userId/:productId ?
-router.post(':/userId', checkAuthenticated, controller.addProductToCart);
-router.delete(':/userId', checkAuthenticated, controller.removeProductFromCart);
-router.put(':/userId', checkAuthenticated, controller.updateProductQuantity);
+router.post(':/userId/:productId', checkAuthenticated, controller.addProductToCart);
+router.delete(':/userId/productId', checkAuthenticated, controller.removeProductFromCart);
+router.put(':/userId/:productId', checkAuthenticated, controller.updateProductQuantity);
+
+// Checkout
+router.post(':/userId/checkout', checkAuthenticated, controller.checkout);
 
 module.exports = router;
