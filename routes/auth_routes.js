@@ -8,7 +8,7 @@ router.get('/register', (req, res) => {
     res.render('register.ejs');
   });
 
-router.post('/register', controller.registerUser);
+router.post('/register', controller.registerUser); //throwing error
 
 router.get('/login', (req, res) => {
     res.render('login.ejs');
@@ -26,4 +26,4 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
   }); 
 
-  module.exports = router;
+module.exports = router;

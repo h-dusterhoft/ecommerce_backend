@@ -1,17 +1,16 @@
 const pool = require('../db/db');
 const queries = require('../db/user_queries');
 const bcrypt = require('bcrypt');
-const passport = require(passport);
 
 const registerUser = (req, res) => {
-    let {username, password, first_name, last_name, email} = req.body;
+    let { username, password, first_name, last_name, email } = req.body;
     pool.query(queries.getUserByEmail, [email], async (error, results) => {
         if (error) throw error;
         if (results.rows.length) {
             res.status(400).send('Email taken.');
         } else {
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
+            let salt = await bcrypt.genSalt(10);
+            let hashedPassword = await bcrypt.hash(password, salt);
             pool.query(queries.createUser, [username, hashedPassword, first_name, last_name, email], (error, results) => {
                 if (error) throw error;
                 res.status(201).send('User created!');
@@ -19,5 +18,15 @@ const registerUser = (req, res) => {
         }
     });
 };
+
+/* const registerUser = (req, res) => {
+    let {username, password, first_name, last_name, email} = req.body;
+    let salt = bcrypt.genSalt(10);
+    let hashedPassword = bcrypt.hash(password, salt);
+    pool.query(queries.createUser, [username, hashedPassword, first_name, last_name, email], (error, results) => {
+        if (error) throw error;
+        res.status(201).send('User created!');
+    });
+}; */
 
 module.exports = registerUser;
