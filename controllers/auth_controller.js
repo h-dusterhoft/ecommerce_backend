@@ -19,14 +19,4 @@ const registerUser = (req, res) => {
     });
 };
 
-/* const registerUser = (req, res) => {
-    let {username, password, first_name, last_name, email} = req.body;
-    let salt = bcrypt.genSalt(10);
-    let hashedPassword = bcrypt.hash(password, salt);
-    pool.query(queries.createUser, [username, hashedPassword, first_name, last_name, email], (error, results) => {
-        if (error) throw error;
-        res.status(201).send('User created!');
-    });
-}; */
-
 module.exports = registerUser;

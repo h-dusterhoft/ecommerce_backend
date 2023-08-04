@@ -3,7 +3,7 @@ const queries = require('../db/cart_queries');
 const orderQueries = require('../db/order_queries');
 
 const getCartByUserId = (req, res) => {
-    const userId = parseInt(req.params.user_id);
+    const userId = parseInt(req.params.userId);
     pool.query(queries.getCartByUserId, [userId], (error, results) => {
         if (error) throw error;
         if (results.rows.length === 0) {
@@ -15,7 +15,7 @@ const getCartByUserId = (req, res) => {
 };
 
 const createCart = (req, res) => {
-    const userId = parseInt(req.params.user_id);
+    const userId = parseInt(req.params.userId);
     pool.query(queries.createCart, [userId], (error, results) => {
         if (error) throw error;
         res.status(201).send('Cart created!');
@@ -23,7 +23,7 @@ const createCart = (req, res) => {
 };
 
 const deleteCart = (req, res) => {
-    const userId = parseInt(req.params.user_id);
+    const userId = parseInt(req.params.userId);
     pool.query(queries.deleteCart, [userId], (error, results) => {
         if (error) throw error;
         res.status(200).send(`Cart deleted with ID: ${id}`);
@@ -31,8 +31,8 @@ const deleteCart = (req, res) => {
 };
 
 const addProductToCart = (req, res) => {
-    const cartId = parseInt(req.body.cart_id);
-    const productId = parseInt(req.params.product_id);
+    const cartId = parseInt(req.body.cartId);
+    const productId = parseInt(req.params.productId);
     const quantity = parseInt(req.body.quantity);
     pool.query(queries.addProductToCart, [cartId, productId, quantity], (req, res) => {
         if (error) throw error;
@@ -44,8 +44,8 @@ const addProductToCart = (req, res) => {
 };
 
 const removeProductFromCart = (req, res) => {
-    const cartId = parseInt(req.body.cart_id);
-    const productId = parseInt(req.params.product_id);
+    const cartId = parseInt(req.body.cartId);
+    const productId = parseInt(req.params.productId);
     pool.query(queries.addProductToCart, [cartId, productId], (req, res) => {
         if (error) throw error;
         pool.query(queries.updateTotalProductCost, [productId], (req, res) => {
@@ -56,8 +56,8 @@ const removeProductFromCart = (req, res) => {
 };
 
 const updateProductQuantity = (req, res) => {
-    const cartId = parseInt(req.body.cart_id);
-    const productId = parseInt(req.params.product_id);
+    const cartId = parseInt(req.body.cartId);
+    const productId = parseInt(req.params.productId);
     const quantity = parseInt(req.body.quantity);
     pool.query(queries.addProductToCart, [quantity, cartId, productId], (req, res) => {
         if (error) throw error;
@@ -69,8 +69,8 @@ const updateProductQuantity = (req, res) => {
 };
 
 const checkout = (req, res) => {
-    const userId = req.params.user_id;
-    const cartId = req.body.cart_id;
+    const userId = req.params.userId;
+    const cartId = req.body.cartId;
     pool.query(queries.getCartByUserId, [userId], (error, results) => {
         if (error) throw error;
         if (results.rows.length === 0) {

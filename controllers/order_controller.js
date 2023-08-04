@@ -17,7 +17,7 @@ const getOrderById = (req, res) => {
 };
 
 const getOrderProducts = (req, res) => {
-    const orderId = req.params.order_id;
+    const orderId = req.params.orderId;
     pool.query(queries.getOrderProducts, [orderId], (error, results) => {
         if (error) throw error;
         res.status(200).json(results.rows);
